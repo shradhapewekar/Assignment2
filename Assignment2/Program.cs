@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assignment2
 {
@@ -296,8 +298,7 @@ namespace Assignment2
                 while (j < s.Length && i < indices.Length)
                 { 
                     int k = indices[i];
-                    char temp = a[j];
-                    b[k] = temp;
+                    b[k] = a[j];
                     j += 1;
                     i += 1;
                 }
@@ -339,10 +340,50 @@ namespace Assignment2
         /// </summary>
         private static bool Isomorphic(string s1, string s2)
         {
+            int s = 256;
+            bool[] marked = new bool[s];
+            int[] map = new int[s];
+
             try
             {
-                //write your code here.
+                if (s1.Length != s2.Length)
                 return false;
+
+                for (int i = 0; i < s; i++)
+                { marked[i] = false; }
+
+
+                for (int i = 0; i < s; i++)
+                {
+                    map[i] = -1;
+                }
+
+                // Process all characters one by on 
+                for (int i = 0; i < s1.Length; i++)
+                {
+                    // If current character of str1 is  
+                    // seen first time in it. 
+                    if (map[s1[i]] == -1)
+                    {
+
+                        // If current character of str2 
+                        // is already seen, one to 
+                        // one mapping not possible 
+                        if (marked[s2[i]] == true)
+                            return false;
+
+                        // Mark current character of  
+                        // str2 as visited 
+                        marked[s2[i]] = true;
+
+                        // Store mapping of current characters 
+                        map[s1[i]] = s2[i];
+                    }
+                    else if (map[s1[i]] != s2[i])
+                        return false;
+                }
+                return true;
+
             }
             catch (Exception)
             {
@@ -376,7 +417,12 @@ namespace Assignment2
         {
             try
             {
-                //write your code here.
+
+                //IEnumerable<int> sorted = items.OrderBy(row => row[0]).OrderBy(row => row[1]);
+                //var sorted = from i in items
+                //             orderby s.s[0]
+                //             orderby s.s[1]
+                //             select s;
 
             }
             catch (Exception)
@@ -408,13 +454,18 @@ namespace Assignment2
         ///Constraints:
         ///1 <= n <= 231 - 1
         /// </summary>
-
-        private static bool HappyNumber(int n)
+        public static int sumDigitSquare(int n)
         {
+            int squareSum = 0;
             try
             {
-                //write your code here.
-                return false;
+
+                while (n != 0)
+                {
+                    squareSum += (n % 10) * (n % 10);
+                    n = n / 10;
+                }
+                return squareSum;
             }
             catch (Exception)
             {
@@ -422,6 +473,35 @@ namespace Assignment2
                 throw;
             }
         }
+        private static bool HappyNumber(int n)
+        {
+            
+            // A set to store numbers during 
+            // repeated square sum process 
+            HashSet<int> s = new HashSet<int>();
+            s.Add(n);
+
+            try
+            {
+                while (true)
+                {
+                    if (n == 1) return true;
+                    n = sumDigitSquare(n);
+                    if (s.Contains(n))
+                        return false;
+                    s.Add(n);
+
+                }
+
+                    
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+            
 
         //Question 9
         /// <summary>
@@ -442,10 +522,20 @@ namespace Assignment2
 
         private static int Stocks(int[] prices)
         {
+            int diff =0 , x ;
             try
             {
-                //write your code here.
-                return 0;
+                for (int i = 0; i < prices.Length; i++)
+                {
+                    for (int j = i; j < prices.Length; j++)
+                    {
+                        if(prices[j] > prices[i]) { 
+                            x = prices[j] - prices[i];
+                            if (x > diff) { diff = x; }
+                        }
+                    }
+                }
+                return diff;
             }
             catch (Exception)
             {
@@ -474,12 +564,17 @@ namespace Assignment2
         ///3. 2 steps + 1 step
         ///Hint : Use the concept of Fibonacci series.
         /// </summary>
-
+        static int fib(int n)
+        {
+            if (n <= 1)
+                return n;
+            return fib(n - 1) + fib(n - 2);
+        }
         private static void Stairs(int steps)
         {
             try
             {
-                //write your code here.
+                Console.WriteLine(fib(steps + 1));
 
             }
             catch (Exception)
