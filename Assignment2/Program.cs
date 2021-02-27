@@ -9,6 +9,7 @@ namespace Assignment2
         static void Main(string[] args)
         {
             //Question1:
+            Console.WriteLine("\nQuestion 1");
             int[] ar1 = { 2, 5, 1, 3, 4, 7 };
             int n1 = 3;
             ShuffleArray(ar1, n1);
@@ -417,12 +418,35 @@ namespace Assignment2
         {
             try
             {
+                int[,] ans = new int[2, 2];
+                int temp = 0;
 
-                //IEnumerable<int> sorted = items.OrderBy(row => row[0]).OrderBy(row => row[1]);
-                //var sorted = from i in items
-                //             orderby s.s[0]
-                //             orderby s.s[1]
-                //             select s;
+
+                Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
+                for (int i = 0; i < 11; i++)
+                {
+                    if (map.ContainsKey(items[i, 0]))
+                    {
+                        map[items[i, 0]].Add(items[i, 1]);
+                    }
+                    else
+                    {
+                        map.Add(items[i, 0], new List<int> { items[i, 1] });
+                    }
+                }
+                foreach (KeyValuePair<int, List<int>> pair in map)
+                {
+                    pair.Value.Sort();
+                    pair.Value.Reverse();
+                    ans[temp, 0] = pair.Key;
+                    ans[temp, 1] = (pair.Value.Take(5).Sum() / 5);
+                    temp = temp + 1;
+                }
+
+
+
+                Console.WriteLine("[" +  ans[0, 0] + "," + ans[0, 1] + "]");
+                Console.WriteLine("[" + ans[1, 0] + "," + ans[1, 1] + "]");
 
             }
             catch (Exception)
